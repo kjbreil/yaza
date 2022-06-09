@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/golang/freetype"
 	"github.com/golang/freetype/truetype"
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/kjbreil/yaza/assets"
 	"github.com/rakyll/statik/fs"
 	"golang.org/x/image/font"
 	"io/ioutil"
@@ -15,6 +17,9 @@ type Game struct {
 	Person coordinates
 
 	GamMap *gameMap
+
+	AD     assets.Assets
+	Assets []*ebiten.Image
 }
 
 type coordinates struct {

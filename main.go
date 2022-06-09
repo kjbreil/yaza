@@ -2,9 +2,8 @@ package main
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/text"
 	_ "github.com/kjbreil/yaza/resources/statik"
-	"golang.org/x/image/colornames"
+	"github.com/kjbreil/yaza/tilegen"
 	"log"
 )
 
@@ -20,6 +19,8 @@ func (g *Game) Init() {
 
 	width, height := 640, 480
 
+	tilegen.Init()
+
 	fx, fy := float64(width)/2.00/ebiten.DeviceScaleFactor(), float64(height)/2.00/ebiten.DeviceScaleFactor()
 
 	g.Person = coordinates{
@@ -30,6 +31,11 @@ func (g *Game) Init() {
 	}
 
 	g.Font, err = loadFont("/ARCADECLASSIC.TTF")
+	if err != nil {
+		log.Panicln(err)
+	}
+
+	err = g.LoadImages()
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -45,10 +51,11 @@ func (g *Game) Init() {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+	// screen.Fill(color.White)
 	// ebitenutil.DebugPrint(screen, "Hello, World!")
-	text.Draw(screen, "P", g.Font, g.Person.x, g.Person.y, colornames.Blanchedalmond)
-
+	// text.Draw(screen, "P", g.Font, g.Person.x, g.Person.y, colornames.Blanchedalmond)
 	g.drawMap(screen)
+	tilegen.Person(screen, g.Person.x, g.Person.y)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
